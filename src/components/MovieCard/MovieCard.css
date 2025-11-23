@@ -1,0 +1,82 @@
+.movie-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: pointer;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-poster {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.card-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    min-height: 40px;
+}
+
+.card-year {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1.5em;
+    color: #ccc;
+    transition: color 0.2s;
+}
+
+.icon-button.favorited {
+    color: gold;
+}
+
+.icon-button.watched {
+    color: #3f51b5;
+}
+
+
+.favorite-btn:not(.favorited):hover {
+    color: #fdd835;
+}
+
+.watched-btn:not(.watched):hover {
+    color: #64b5f6;
+}
+
+.movie-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.movie-card-link:hover {
+    text-decoration: underline;
+    color: #3f51b5;
+}
