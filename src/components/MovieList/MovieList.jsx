@@ -1,5 +1,12 @@
-const MovieList = ({ movies, loading, error }) => {
+import MovieCard from "../MovieCard/MovieCard";
+import "./MovieList.css";
 
+const MovieList = ({
+  movies,
+  loading,
+  error,
+  /* , userFavorites, userWatched */
+}) => {
   if (loading) {
     return <p>Cargando películas...</p>;
   }
@@ -9,11 +16,20 @@ const MovieList = ({ movies, loading, error }) => {
   }
 
   return (
-    <div className="movie-list">
-      {movies.map(movie => (
-        <p key={movie.id}>
-          {movie.title} (Rating: {movie.vote_average})
-        </p>
+    <div className="movie-grid">
+      {movies.map((movie) => (
+        <MovieCard
+          key={movie.id}
+          movie={movie}
+          // now only to simulate, first is favorite and watched
+          //implement later/
+          //isFavorite={userFavorites.includes(movie.id)}
+          isFavorite={movie.id === movies[0].id}
+          isWatched={movie.id === movies[0].id}
+          // implement later
+          // onToggleFavorite={...} /
+          // onToggleWatched={...}
+        />
       ))}
     </div>
   );
