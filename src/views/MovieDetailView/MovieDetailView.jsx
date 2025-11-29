@@ -2,14 +2,15 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../../hooks/useMovieDetails";
 import LinkButton from "../../components/LinkButton/LinkButton";
-import "./MovieDetailView.css";
 import Spinner from "../../components/Spinner/Spinner";
+import WatchProviders from "../../components/WatchProviders/WatchProviders";
+import "./MovieDetailView.css";
 
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const MovieDetailView = () => {
   const { id } = useParams();
-  const { movie, loading, error } = useMovieDetails(id);
+  const { movie, providers, loading, error } = useMovieDetails(id);
 
   if (loading) {
     return <Spinner message="Cargando detalles de la película..." />;
@@ -65,6 +66,7 @@ const MovieDetailView = () => {
           </div>
         </div>
       </div>
+      <WatchProviders providers={providers} />
     </div>
   );
 };
