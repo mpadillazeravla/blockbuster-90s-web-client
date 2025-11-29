@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../../hooks/useMovieDetails";
 import LinkButton from "../../components/LinkButton/LinkButton";
 import "./MovieDetailView.css";
+import Spinner from "../../components/Spinner/Spinner";
 
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -11,9 +12,7 @@ const MovieDetailView = () => {
   const { movie, loading, error } = useMovieDetails(id);
 
   if (loading) {
-    return (
-      <div className="loading-state">Cargando detalles de la película...</div>
-    );
+    return <Spinner message="Cargando detalles de la película..." />;
   }
 
   if (error) {
