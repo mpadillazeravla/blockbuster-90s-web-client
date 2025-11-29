@@ -57,4 +57,22 @@ export const tmdbService = {
 
     return await response.json();
   },
+
+  getWatchProviders: async (movieId) => {
+    if (!TOKEN) {
+      throw new Error("El token de TMDb no está configurado.");
+    }
+
+    const response = await fetch(
+      `${BASE_URL}/movie/${movieId}/watch/providers`,
+      defaultOptions
+    );
+
+    if (!response.ok) {
+      throw new Error("No se encontraron los proveedores.");
+    }
+
+    const data = await response.json();
+    return data.results?.ES || null;
+  },
 };
