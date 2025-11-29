@@ -7,7 +7,16 @@ const HomeView = () => {
 
   return (
     <div className="home-view">
-      {/* <h2>Películas de los 90 (Top 20)</h2> */}
+      <header className="home-header">
+        <h1 className="home-title">Bienvenidos a Blockbuster 90s</h1>
+        <p className="home-description">
+          La base de datos de la mejor década de la historia del cine
+        </p>
+        <p className="home-instructions">
+          Pulsa sobre cualquier película para ver más detalles
+        </p>
+      </header>
+
       <MovieList movies={movies} loading={loading} error={error} />
     </div>
   );

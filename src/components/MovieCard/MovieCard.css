@@ -15,8 +15,11 @@
 
 .movie-poster {
     width: 100%;
-    height: auto;
+    aspect-ratio: 2/3;
+    min-height: 400px;
+    max-height: 450px;
     display: block;
+    object-fit: cover;
 }
 
 .card-info {

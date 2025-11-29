@@ -1,4 +1,5 @@
 import MovieCard from "../MovieCard/MovieCard";
+import Spinner from "../Spinner/Spinner";
 import "./MovieList.css";
 
 const MovieList = ({
@@ -8,7 +9,7 @@ const MovieList = ({
   /* , userFavorites, userWatched */
 }) => {
   if (loading) {
-    return <p>Cargando películas...</p>;
+    return <Spinner message="Cargando películas..." />;
   }
 
   if (error) {
