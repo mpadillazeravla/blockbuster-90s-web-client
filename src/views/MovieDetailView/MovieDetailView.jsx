@@ -1,6 +1,7 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useMovieDetails } from "../../hooks/useMovieDetails";
+import { useUserMovies } from "../../hooks/useUserMovies";
+import { FaRegStar, FaStar, FaRegEye, FaEye } from "react-icons/fa";
 import LinkButton from "../../components/LinkButton/LinkButton";
 import Spinner from "../../components/Spinner/Spinner";
 import WatchProviders from "../../components/WatchProviders/WatchProviders";
@@ -11,6 +12,8 @@ const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
 const MovieDetailView = () => {
   const { id } = useParams();
   const { movie, providers, loading, error } = useMovieDetails(id);
+  const { handleToggleFavorite, handleToggleWatched, isFavorite, isWatched } =
+    useUserMovies();
 
   if (loading) {
     return <Spinner message="Cargando detalles de la película..." />;
@@ -27,6 +30,9 @@ const MovieDetailView = () => {
   const posterUrl = movie.poster_path
     ? `${POSTER_BASE_URL}${movie.poster_path}`
     : "../../../public/No_Image_Available.jpg";
+
+  const movieIsFavorite = isFavorite(parseInt(id));
+  const movieIsWatched = isWatched(parseInt(id));
 
   return (
     <div className="movie-detail-container">
@@ -45,6 +51,35 @@ const MovieDetailView = () => {
             {movie.title} ({movie.release_date.split("-")[0]})
           </h2>
           {movie.tagline && <p className="tagline">{movie.tagline}</p>}
+
+          {/* Botones de favorito y visto */}
+          <div className="movie-actions">
+            <button
+              className={`action-button favorite-btn ${
+                movieIsFavorite ? "active" : ""
+              }`}
+              onClick={() => handleToggleFavorite(parseInt(id))}
+              title={
+                movieIsFavorite ? "Quitar de favoritos" : "Añadir a favoritos"
+              }
+            >
+              {movieIsFavorite ? <FaStar /> : <FaRegStar />}
+              <span>
+                {movieIsFavorite ? "En Favoritos" : "Añadir a Favoritos"}
+              </span>
+            </button>
+
+            <button
+              className={`action-button watched-btn ${
+                movieIsWatched ? "active" : ""
+              }`}
+              onClick={() => handleToggleWatched(parseInt(id))}
+              title={movieIsWatched ? "Quitar de vistas" : "Marcar como vista"}
+            >
+              {movieIsWatched ? <FaEye /> : <FaRegEye />}
+              <span>{movieIsWatched ? "Ya Vista" : "Marcar como Vista"}</span>
+            </button>
+          </div>
 
           <h3>Sinopsis</h3>
           <p>{movie.overview || "Sin sinopsis disponible"}</p>

@@ -6,7 +6,10 @@ const MovieList = ({
   movies,
   loading,
   error,
-  /* , userFavorites, userWatched */
+  userFavorites = [],
+  userWatched = [],
+  onToggleFavorite,
+  onToggleWatched,
 }) => {
   if (loading) {
     return <Spinner message="Cargando películas..." />;
@@ -22,14 +25,10 @@ const MovieList = ({
         <MovieCard
           key={movie.id}
           movie={movie}
-          // now only to simulate, first is favorite and watched
-          //implement later/
-          //isFavorite={userFavorites.includes(movie.id)}
-          isFavorite={movie.id === movies[0].id}
-          isWatched={movie.id === movies[0].id}
-          // implement later
-          // onToggleFavorite={...} /
-          // onToggleWatched={...}
+          isFavorite={userFavorites.includes(movie.id)}
+          isWatched={userWatched.includes(movie.id)}
+          onToggleFavorite={onToggleFavorite}
+          onToggleWatched={onToggleWatched}
         />
       ))}
     </div>

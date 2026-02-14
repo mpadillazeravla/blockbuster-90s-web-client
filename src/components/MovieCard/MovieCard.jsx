@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { FaRegStar, FaStar, FaRegEye, FaEye } from "react-icons/fa";
 import "./MovieCard.css";
 import { Link } from "react-router-dom";
@@ -18,16 +17,18 @@ const MovieCard = ({
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    console.log(
-      `Clic en ${movie.title} - Favorito: ${isFavorite ? "Borrar" : "Añadir"}`
-    );
+    e.preventDefault();
+    if (onToggleFavorite) {
+      onToggleFavorite(movie.id);
+    }
   };
 
   const handleWatchedClick = (e) => {
     e.stopPropagation();
-    console.log(
-      `Clic en ${movie.title} - Visto: ${isWatched ? "Borrar" : "Añadir"}`
-    );
+    e.preventDefault();
+    if (onToggleWatched) {
+      onToggleWatched(movie.id);
+    }
   };
 
   return (
