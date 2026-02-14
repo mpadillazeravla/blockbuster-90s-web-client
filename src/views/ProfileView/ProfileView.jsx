@@ -177,6 +177,7 @@ const ProfileView = () => {
                   isWatched={userData?.watched.includes(movie.id)}
                   onToggleFavorite={() => handleToggleFavorite(movie.id)}
                   onToggleWatched={() => handleToggleWatched(movie.id)}
+                  linkState={{ from: "profile" }}
                 />
               ))}
 
@@ -212,6 +213,7 @@ const ProfileView = () => {
                   isWatched={userData?.watched.includes(movie.id)}
                   onToggleFavorite={() => handleToggleFavorite(movie.id)}
                   onToggleWatched={() => handleToggleWatched(movie.id)}
+                  linkState={{ from: "profile" }}
                 />
               ))}
 
