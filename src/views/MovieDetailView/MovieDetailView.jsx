@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useMovieDetails } from "../../hooks/useMovieDetails";
 import { useUserMovies } from "../../hooks/useUserMovies";
 import { FaRegStar, FaStar, FaRegEye, FaEye } from "react-icons/fa";
@@ -11,9 +11,12 @@ const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const MovieDetailView = () => {
   const { id } = useParams();
+  const location = useLocation();
   const { movie, providers, loading, error } = useMovieDetails(id);
   const { handleToggleFavorite, handleToggleWatched, isFavorite, isWatched } =
     useUserMovies();
+
+  const fromProfile = location.state?.from === "profile";
 
   if (loading) {
     return <Spinner message="Cargando detalles de la película..." />;
@@ -36,8 +39,8 @@ const MovieDetailView = () => {
 
   return (
     <div className="movie-detail-container">
-      <LinkButton to="/" icon="arrow-left">
-        Volver al Catálogo
+      <LinkButton to={fromProfile ? "/profile" : "/"} icon="arrow-left">
+        {fromProfile ? "Volver a Zona Privada" : "Volver al Catálogo"}
       </LinkButton>
 
       <div className="movie-detail-content">

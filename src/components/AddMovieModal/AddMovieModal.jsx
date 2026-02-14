@@ -61,16 +61,9 @@ const AddMovieModal = ({
       setHasSearched(true);
       const response = await tmdbService.searchMovies(searchQuery);
 
-      // Filtrar solo películas de los 90
-      const movies90s = (response.results || []).filter((movie) => {
-        if (!movie.release_date) return false;
-        const year = parseInt(movie.release_date.split("-")[0]);
-        return year >= 1990 && year <= 1999;
-      });
+      setMovies(response.results || []);
 
-      setMovies(movies90s);
-
-      if (movies90s.length === 0) {
+      if ((response.results || []).length === 0) {
         setError("No se encontraron películas de los 90s con ese nombre");
       }
     } catch (err) {

@@ -17,7 +17,7 @@ export const tmdbService = {
 
     const response = await fetch(
       `${BASE_URL}/movie/${movieId}?language=es-ES`,
-      defaultOptions
+      defaultOptions,
     );
 
     if (!response.ok) {
@@ -48,7 +48,7 @@ export const tmdbService = {
 
     const response = await fetch(
       `${BASE_URL}/discover/movie?${params.toString()}`,
-      defaultOptions
+      defaultOptions,
     );
 
     if (!response.ok) {
@@ -65,7 +65,7 @@ export const tmdbService = {
 
     const response = await fetch(
       `${BASE_URL}/movie/${movieId}/watch/providers`,
-      defaultOptions
+      defaultOptions,
     );
 
     if (!response.ok) {
@@ -90,17 +90,28 @@ export const tmdbService = {
       language: "es-ES",
       include_adult: "false",
       page: "1",
+      "primary_release_date.gte": "1990-01-01",
+      "primary_release_date.lte": "1999-12-31",
     });
 
     const response = await fetch(
       `${BASE_URL}/search/movie?${params.toString()}`,
-      defaultOptions
+      defaultOptions,
     );
 
     if (!response.ok) {
       throw new Error("Error al buscar películas.");
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    // Filtrar solo películas de los 90
+    data.results = (data.results || []).filter((movie) => {
+      if (!movie.release_date) return false;
+      const year = parseInt(movie.release_date.split("-")[0]);
+      return year >= 1990 && year <= 1999;
+    });
+
+    return data;
   },
 };

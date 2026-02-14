@@ -10,6 +10,7 @@ const MovieCard = ({
   isWatched = false,
   onToggleFavorite,
   onToggleWatched,
+  linkState,
 }) => {
   const posterUrl = movie.poster_path
     ? `${POSTER_BASE_URL}${movie.poster_path}`
@@ -33,7 +34,7 @@ const MovieCard = ({
 
   return (
     <div className="movie-card">
-      <Link to={`/movie/${movie.id}`} className="movie-card-link">
+      <Link to={`/movie/${movie.id}`} state={linkState} className="movie-card-link">
         <img
           src={posterUrl}
           alt={`Poster de ${movie.title}`}
@@ -42,7 +43,7 @@ const MovieCard = ({
       </Link>
 
       <div className="card-info">
-        <Link to={`/movie/${movie.id}`} className="movie-card-link">
+        <Link to={`/movie/${movie.id}`} state={linkState} className="movie-card-link">
           <h3 className="card-title">{movie.title}</h3>
         </Link>
 

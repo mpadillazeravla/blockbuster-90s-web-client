@@ -16,34 +16,62 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar si hay un usuario guardado en localStorage al cargar
-    const token = localStorage.getItem("token");
-    const savedUser = localStorage.getItem("user");
+    const initializeUser = async () => {
+      const token = localStorage.getItem("token");
+      const savedUser = localStorage.getItem("user");
 
-    if (token && savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error("Error al parsear usuario guardado:", error);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+      if (token && savedUser) {
+        try {
+          const parsedUser = JSON.parse(savedUser);
+          setUser(parsedUser);
+
+          // Refrescar datos del usuario desde el backend para tener favorites/watched actualizados
+          const userId = parsedUser.id || parsedUser._id;
+          if (userId) {
+            const response = await apiService.getUserData(userId);
+            const refreshedUser = {
+              ...(response.user || response),
+              favorites: (response.favorites || []).map(Number),
+              watched: (response.watched || []).map(Number),
+              id:
+                response.user?.id ||
+                response.user?._id ||
+                response.id ||
+                response._id,
+            };
+            localStorage.setItem("user", JSON.stringify(refreshedUser));
+            setUser(refreshedUser);
+          }
+        } catch (error) {
+          console.error("Error al inicializar usuario:", error);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        }
       }
-    }
-    setLoading(false);
+      setLoading(false);
+    };
+
+    initializeUser();
   }, []);
 
   const register = async (userData) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const response = await apiService.register(userData);
+      const userId = response.user.id || response.user._id;
 
-      // Normalizar el usuario para asegurar que tenga un campo 'id'
+      // Guardar token
+      localStorage.setItem("token", response.token);
+
+      // Obtener datos completos del usuario (favorites/watched) desde el backend
+      const fullData = await apiService.getUserData(userId);
       const normalizedUser = {
-        ...response.user,
-        id: response.user.id || response.user._id,
+        ...(fullData.user || fullData),
+        id: userId,
+        favorites: (fullData.favorites || []).map(Number),
+        watched: (fullData.watched || []).map(Number),
       };
 
-      // Guardar token y usuario
-      localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(normalizedUser));
       setUser(normalizedUser);
 
@@ -54,17 +82,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (credentials) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const response = await apiService.login(credentials);
+      const userId = response.user.id || response.user._id;
 
-      // Normalizar el usuario para asegurar que tenga un campo 'id'
+      // Guardar token
+      localStorage.setItem("token", response.token);
+
+      // Obtener datos completos del usuario (favorites/watched) desde el backend
+      const fullData = await apiService.getUserData(userId);
       const normalizedUser = {
-        ...response.user,
-        id: response.user.id || response.user._id,
+        ...(fullData.user || fullData),
+        id: userId,
+        favorites: (fullData.favorites || []).map(Number),
+        watched: (fullData.watched || []).map(Number),
       };
 
-      // Guardar token y usuario
-      localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(normalizedUser));
       setUser(normalizedUser);
 
