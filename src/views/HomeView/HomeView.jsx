@@ -1,9 +1,16 @@
 import { useMovies } from "../../hooks/useMovies";
+import { useUserMovies } from "../../hooks/useUserMovies";
 import MovieList from "../../components/MovieList/MovieList";
 import "./HomeView.css";
 
 const HomeView = () => {
   const { movies, loading, error } = useMovies();
+  const {
+    handleToggleFavorite,
+    handleToggleWatched,
+    userFavorites,
+    userWatched,
+  } = useUserMovies();
 
   return (
     <div className="home-view">
@@ -17,7 +24,15 @@ const HomeView = () => {
         </p>
       </header>
 
-      <MovieList movies={movies} loading={loading} error={error} />
+      <MovieList
+        movies={movies}
+        loading={loading}
+        error={error}
+        userFavorites={userFavorites}
+        userWatched={userWatched}
+        onToggleFavorite={handleToggleFavorite}
+        onToggleWatched={handleToggleWatched}
+      />
     </div>
   );
 };

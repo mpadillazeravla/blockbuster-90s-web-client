@@ -75,4 +75,32 @@ export const tmdbService = {
     const data = await response.json();
     return data.results?.ES || null;
   },
+
+  searchMovies: async (query) => {
+    if (!TOKEN) {
+      throw new Error("El token de TMDb no está configurado.");
+    }
+
+    if (!query || query.trim() === "") {
+      throw new Error("La búsqueda no puede estar vacía.");
+    }
+
+    const params = new URLSearchParams({
+      query: query,
+      language: "es-ES",
+      include_adult: "false",
+      page: "1",
+    });
+
+    const response = await fetch(
+      `${BASE_URL}/search/movie?${params.toString()}`,
+      defaultOptions
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al buscar películas.");
+    }
+
+    return await response.json();
+  },
 };

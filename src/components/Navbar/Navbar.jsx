@@ -1,8 +1,11 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import UserMenu from "../UserMenu/UserMenu";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -12,17 +15,18 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-links">
-        <Link to="/login" className="nav-link">
-          Iniciar Sesión
-        </Link>
-        <Link to="/register" className="nav-link">
-          Registrarse
-        </Link>
-
-        {/* Implement later */}
-        {/* {isLoggedIn && (
-            <Link to="/profile" className="nav-link">Mi Perfil</Link>
-        )} */}
+        {isAuthenticated ? (
+          <UserMenu />
+        ) : (
+          <>
+            <Link to="/login" className="nav-link">
+              Iniciar Sesión
+            </Link>
+            <Link to="/register" className="nav-link">
+              Registrarse
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

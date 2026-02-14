@@ -24,6 +24,13 @@
 .navbar-links {
     display: flex;
     gap: 25px;
+    align-items: center;
+}
+
+.nav-welcome {
+    color: #FFD700;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .nav-link {
