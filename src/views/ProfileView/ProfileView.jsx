@@ -27,7 +27,9 @@ const ProfileView = () => {
     }
 
     loadUserData();
-  }, [user, navigate]);
+    // Solo cargar datos en el montaje inicial, no cuando user cambia por updateUserData
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const loadUserData = async () => {
     try {
@@ -89,12 +91,33 @@ const ProfileView = () => {
 
       if (isFavorite) {
         await apiService.removeFromFavorites(user.id, movieId);
+        // Actualizar estado local sin recargar la vista entera
+        setUserData((prev) => ({
+          ...prev,
+          favorites: prev.favorites.filter((id) => id !== movieId),
+        }));
+        setFavoriteMovies((prev) => prev.filter((m) => m.id !== movieId));
       } else {
         await apiService.addToFavorites(user.id, movieId);
+        // Actualizar estado local
+        setUserData((prev) => ({
+          ...prev,
+          favorites: [...prev.favorites, movieId],
+        }));
+        // Si la película ya está cargada en watchedMovies, reutilizar sus datos
+        const existingMovie = watchedMovies.find((m) => m.id === movieId);
+        if (existingMovie) {
+          setFavoriteMovies((prev) => [...prev, existingMovie]);
+        } else {
+          const movieDetails = await tmdbService
+            .getMovieDetails(movieId)
+            .catch(() => null);
+          if (movieDetails) {
+            setFavoriteMovies((prev) => [...prev, movieDetails]);
+          }
+        }
       }
 
-      // Recargar datos
-      await loadUserData();
       await updateUserData();
     } catch (err) {
       console.error("Error in handleToggleFavorite:", err);
@@ -112,12 +135,31 @@ const ProfileView = () => {
 
       if (isWatched) {
         await apiService.removeFromWatched(user.id, movieId);
+        // Actualizar estado local sin recargar, como en favoritas
+        setUserData((prev) => ({
+          ...prev,
+          watched: prev.watched.filter((id) => id !== movieId),
+        }));
+        setWatchedMovies((prev) => prev.filter((m) => m.id !== movieId));
       } else {
         await apiService.addToWatched(user.id, movieId);
+        setUserData((prev) => ({
+          ...prev,
+          watched: [...prev.watched, movieId],
+        }));
+        const existingMovie = favoriteMovies.find((m) => m.id === movieId);
+        if (existingMovie) {
+          setWatchedMovies((prev) => [...prev, existingMovie]);
+        } else {
+          const movieDetails = await tmdbService
+            .getMovieDetails(movieId)
+            .catch(() => null);
+          if (movieDetails) {
+            setWatchedMovies((prev) => [...prev, movieDetails]);
+          }
+        }
       }
 
-      // Recargar datos
-      await loadUserData();
       await updateUserData();
     } catch (err) {
       console.error("Error in handleToggleWatched:", err);
