@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { FaTimes, FaSearch, FaStar, FaEye } from "react-icons/fa";
+import { FaTimes, FaStar, FaEye } from "react-icons/fa";
 import { tmdbService } from "../../services/tmdbService";
 import Spinner from "../Spinner/Spinner";
+import MovieSearch from "../MovieSearch/MovieSearch";
 import "./AddMovieModal.css";
 
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w200";
@@ -110,30 +111,13 @@ const AddMovieModal = ({
         </div>
 
         <div className="modal-search">
-          <form onSubmit={handleSearch} className="search-form">
-            <div className="search-input-wrapper">
-              <FaSearch className="search-icon" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar película por nombre..."
-                className="search-input"
-              />
-              {hasSearched && (
-                <button
-                  type="button"
-                  onClick={handleClearSearch}
-                  className="clear-search-btn"
-                >
-                  <FaTimes />
-                </button>
-              )}
-            </div>
-            <button type="submit" className="search-button">
-              Buscar
-            </button>
-          </form>
+          <MovieSearch
+            searchQuery={searchQuery}
+            onSearchQueryChange={setSearchQuery}
+            onSearch={handleSearch}
+            onClear={handleClearSearch}
+            hasSearched={hasSearched}
+          />
         </div>
 
         <div className="modal-body">
