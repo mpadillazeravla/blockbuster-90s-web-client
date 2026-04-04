@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { tmdbService } from "../services/tmdbService";
 
-export const useMovies = (filters = {}) => {
+export const useMovies = (page = 1, sortBy = "vote_average.desc") => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
@@ -13,7 +12,7 @@ export const useMovies = (filters = {}) => {
       try {
         setLoading(true);
         setError(null);
-        const data = await tmdbService.getMovies({ ...filters, page });
+        const data = await tmdbService.getMovies({ page, sort_by: sortBy });
         setMovies(data.results);
         setTotalPages(data.total_pages || 1);
       } catch (err) {
@@ -25,8 +24,7 @@ export const useMovies = (filters = {}) => {
     };
 
     fetchMovies();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, sortBy]);
 
-  return { movies, loading, error, page, setPage, totalPages };
+  return { movies, loading, error, totalPages };
 };
