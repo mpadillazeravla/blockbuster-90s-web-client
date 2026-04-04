@@ -1,0 +1,73 @@
+/* === variant="icon" (MovieCard) === */
+.share-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 1.5em;
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.share-icon-btn:hover {
+  color: #00897b;
+}
+
+.share-icon-btn.share-copied {
+  color: #43a047;
+}
+
+/* === variant="action" (MovieDetailView) === */
+.share-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #666;
+}
+
+.share-action-btn svg {
+  font-size: 1.3em;
+}
+
+.share-action-btn:hover {
+  border-color: #00897b;
+  color: #00897b;
+  background: #e0f2f1;
+}
+
+.share-action-btn.share-copied {
+  border-color: #43a047;
+  background: #43a047;
+  color: white;
+}
+
+/* === variant="modal" (AddMovieModal) === */
+.share-modal-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #999;
+  transition: all 0.3s ease;
+}
+
+.share-modal-btn:hover,
+.share-modal-btn.share-copied {
+  border-color: #00897b;
+  background: #00897b;
+  color: white;
+}

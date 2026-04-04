@@ -1,6 +1,7 @@
 import { FaRegStar, FaStar, FaRegEye, FaEye } from "react-icons/fa";
 import "./MovieCard.css";
 import { Link } from "react-router-dom";
+import ShareButton from "../ShareButton/ShareButton";
 
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
@@ -72,6 +73,8 @@ const MovieCard = ({
           >
             {isWatched ? <FaEye /> : <FaRegEye />}
           </button>
+
+          <ShareButton movieId={movie.id} movieTitle={movie.title} variant="icon" />
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { FaTimes, FaStar, FaEye } from "react-icons/fa";
 import { tmdbService } from "../../services/tmdbService";
 import Spinner from "../Spinner/Spinner";
 import MovieSearch from "../MovieSearch/MovieSearch";
+import ShareButton from "../ShareButton/ShareButton";
 import "./AddMovieModal.css";
 
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w200";
@@ -173,6 +174,11 @@ const AddMovieModal = ({
                         >
                           <FaEye />
                         </button>
+                        <ShareButton
+                          movieId={movie.id}
+                          movieTitle={movie.title}
+                          variant="modal"
+                        />
                       </div>
                     </div>
                   </div>

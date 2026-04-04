@@ -5,6 +5,7 @@ import { FaRegStar, FaStar, FaRegEye, FaEye } from "react-icons/fa";
 import LinkButton from "../../components/LinkButton/LinkButton";
 import Spinner from "../../components/Spinner/Spinner";
 import WatchProviders from "../../components/WatchProviders/WatchProviders";
+import ShareButton from "../../components/ShareButton/ShareButton";
 import "./MovieDetailView.css";
 
 const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500";
@@ -55,7 +56,7 @@ const MovieDetailView = () => {
           </h2>
           {movie.tagline && <p className="tagline">{movie.tagline}</p>}
 
-          {/* Botones de favorito y visto */}
+          {/* Botones de favorito, visto y compartir */}
           <div className="movie-actions">
             <button
               className={`action-button favorite-btn ${
@@ -82,6 +83,12 @@ const MovieDetailView = () => {
               {movieIsWatched ? <FaEye /> : <FaRegEye />}
               <span>{movieIsWatched ? "Ya Vista" : "Marcar como Vista"}</span>
             </button>
+
+            <ShareButton
+              movieId={id}
+              movieTitle={movie.title}
+              variant="action"
+            />
           </div>
 
           <h3>Sinopsis</h3>
