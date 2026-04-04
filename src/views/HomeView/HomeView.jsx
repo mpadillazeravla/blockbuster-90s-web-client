@@ -249,7 +249,11 @@ const HomeView = () => {
               className="pagination-jump-input"
               placeholder="pág."
             />
-            <button type="submit" className="pagination-btn">
+            <button
+              type="submit"
+              className="pagination-btn"
+              style={{ fontSize: "1rem" }}
+            >
               Ir
             </button>
           </form>
