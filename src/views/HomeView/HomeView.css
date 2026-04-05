@@ -41,14 +41,16 @@
 }
 
 .home-title {
-    font-size: 2.8rem;
+    font-size: clamp(1.4rem, 5vw, 2.8rem);
     font-weight: bold;
     color: #FFD700;
     margin-bottom: 0;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: clamp(0px, 1vw, 3px);
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
     font-family: 'Impact', 'Arial Black', sans-serif;
+    word-break: keep-all;
+    overflow-wrap: normal;
 }
 
 .home-header-content {
@@ -66,7 +68,7 @@
 }
 
 .home-description {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
     color: #FFF;
     margin-bottom: 0.8rem;
     font-style: italic;
@@ -74,10 +76,10 @@
 }
 
 .home-instructions {
-    font-size: 1rem;
+    font-size: clamp(0.75rem, 2vw, 1rem);
     color: #FFD700;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: clamp(0px, 0.5vw, 2px);
     font-weight: bold;
     margin-bottom: 0;
 }
@@ -245,6 +247,18 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+    .home-view {
+        margin: 1rem;
+    }
+
+    .home-header {
+        padding: 1.25rem 1rem;
+    }
+
+    .home-header--collapsed {
+        padding: 0.75rem 1rem;
+    }
+
     .home-controls {
         flex-direction: column;
     }
